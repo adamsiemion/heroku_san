@@ -1,30 +1,13 @@
 = Heroku San
 
-Helpful rake tasks for Heroku.
+Helpful rake tasks for Heroku for Padrino projects.
 
 == Install
 
-=== Rails 3
+=== Padrino
 
-Add this to your Gemfile:
-
-  group :development do
-    gem 'heroku_san'
-  end
-
-=== Rails 2
-
-To install add the following to config/environment.rb:
-
-  config.gem 'heroku_san'
-
-Rake tasks are not automatically loaded from gems, so you’ll need to add the following to your Rakefile:
-
-  begin
-    require 'heroku_san/tasks'
-  rescue LoadError
-    STDERR.puts "Run `rake gems:install` to install heroku_san"
-  end
+Copy lib/tasks/heroku.rake to lib/tasks/ in your project
+Copy lib/templates/heroku.example.yml to config/ in your project
 
 == Configure
 
@@ -35,61 +18,64 @@ In config/heroku.yml you will need add the Heroku apps that you would like to at
 If this is a fresh project, heroku_san can create all the applications for
 you, and set the RACK_ENV.
 
-  rake all heroku:create heroku:rack_env
+  rake heroku:all heroku:create heroku:rack_env
 
 == Usage
 
 After configuring your Heroku apps you can use rake tasks to control the
 apps.
 
-  rake production deploy
+  rake heroku:production heroku:deploy
 
 A rake task with the shorthand name of each app is now available and adds that
 server to the list that subsequent commands will execute on. Because this list
 is additive, you can easily select which servers to run a command on.
 
-  rake demo staging restart
+  rake heroku:demo heroku:staging heroku:restart
 
-A special rake task 'all' is created that causes any further commands to
+A special rake task 'heroku:all' is created that causes any further commands to
 execute on all heroku apps.
 
 Manipulate collaborators on all this project's apps (prompts for email
 address):
 
-  rake all heroku:share
-  rake all heroku:unshare
+  rake heroku:all heroku:share
+  rake herkou:all heroku:unshare
 
 Need to add remotes for each app?
 
-  rake all heroku:remotes
+  rake heroku:all heroku:remotes
 
-A full list of tasks provided:
+A full list of tasks provided (padrino rake -T heroku)
 
-  rake all                   # Select all Heroku apps for later command
-  rake console               # Opens a remote console
-  rake deploy[commit]        # Pushes the given commit, migrates and restarts (default: HEAD)
-  rake deploy:force[commit]  # Force-pushes the given commit, migrates and restarts (default: HEAD)
-  rake after_deploy          # Callback after deploys
-  rake before_deploy         # Callback before deploys
-  rake capture               # Captures a bundle on Heroku
-  rake heroku:apps           # Lists configured apps
-  rake heroku:create         # Creates the Heroku app
-  rake heroku:create_config  # Creates an example configuration file
-  rake heroku:gems           # Generate the Heroku gems manifest from gem dependencies
-  rake heroku:maintenance    # Enable maintenance mode
-  rake heroku:maintenance_off# Disable maintenance mode
-  rake heroku:push           # Pushes the given commit (default: HEAD)
-  rake heroku:push:force     # Force-pushes the given commit (default: HEAD)
-  rake heroku:remotes        # Add git remotes for all apps in this project
-  rake heroku:rack_env       # Add proper RACK_ENV to each application
-  rake heroku:rake[task]     # Runs a rake task remotely
-  rake heroku:share          # Adds a collaborator
-  rake heroku:unshare        # Removes a collaborator
-  rake logs                  # Shows the Heroku logs
-  rake migrate               # Migrates and restarts remote servers
-  rake restart               # Restarts remote servers
+  rake heroku:all                   # Select all Heroku apps for later command
+  rake heroku:console               # Opens a remote console
+  rake heroku:deploy[commit]        # Pushes the given commit, migrates and restarts (default: HEAD)
+  rake heroku:deploy:force[commit]  # Force-pushes the given commit, migrates and restarts (default: HEAD)
+  rake heroku:after_deploy          # Callback after deploys
+  rake heroku:before_deploy         # Callback before deploys
+  rake heroku:capture               # Captures a bundle on Heroku
+  rake heroku:apps                  # Lists configured apps
+  rake heroku:create                # Creates the Heroku app
+  rake heroku:create_config         # Creates an example configuration file
+  rake heroku:gems                  # Generate the Heroku gems manifest from gem dependencies
+  rake heroku:maintenance           # Enable maintenance mode
+  rake heroku:maintenance_off       # Disable maintenance mode
+  rake heroku:push                  # Pushes the given commit (default: HEAD)
+  rake heroku:push:force            # Force-pushes the given commit (default: HEAD)
+  rake heroku:remotes               # Add git remotes for all apps in this project
+  rake heroku:rack_env              # Add proper RACK_ENV to each application
+  rake heroku:rake[task]            # Runs a rake task remotely
+  rake heroku:share                 # Adds a collaborator
+  rake heroku:unshare               # Removes a collaborator
+  rake heroku:logs                  # Shows the Heroku logs
+  rake heroku:migrate               # Migrates and restarts remote servers
+  rake heroku:restart               # Restarts remote servers
 
-Frequently used tasks are not namespaced, everything else lives under heroku.
+== Differences between Rails and Padrino heroku san versions
+
+* Padrino version is compacted into one file (heroku.rake)
+* All tasks are namespaced under heroku.
 
 == Links
 
